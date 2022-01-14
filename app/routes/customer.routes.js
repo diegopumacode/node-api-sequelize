@@ -6,6 +6,6 @@ module.exports = app => {
     router.get("/",customers.findAll)
     router.post("/",customers.create)
     router.put("/:id", customers.update);
-
+    router.get("/ages", customers.averageAge);
     app.use('/api/customers', router);
 }

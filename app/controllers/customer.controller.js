@@ -1,6 +1,5 @@
 const db = require("../models");
 const Customer = db.Customer;
-const Op = db.Sequelize.Op;
 
 const findAll = (req, res) => {
     Customer.findAll()
@@ -64,8 +63,24 @@ const update = (req, res) => {
         });
 };
 
+const averageAge= (req, res) => {
+    Customer.findAll()
+        .then(data => {
+            let sumAges = 0
+            data.forEach(customer => sumAges =+ require("../utils/calculateAge.js")(customer.dateOfBirth));
+            res.send({averageAge:sumAges});
+        },0)
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+}
+
 module.exports = {
     update,
     findAll,
-    create
+    create,
+    averageAge
 }
